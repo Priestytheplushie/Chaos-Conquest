@@ -187,8 +187,10 @@ nav.scrolled {
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.dropdown:hover .dropdown-btn { color: var(--aqua); }
-.dropdown:hover .dropdown-btn::after {
+.dropdown:hover .dropdown-btn,
+.dropdown.active .dropdown-btn { color: var(--aqua); }
+.dropdown:hover .dropdown-btn::after,
+.dropdown.active .dropdown-btn::after {
     transform: rotate(180deg);
     border-top-color: var(--aqua);
 }
@@ -240,7 +242,8 @@ nav.scrolled {
     padding-left: 22px;
 }
 
-.dropdown:hover .dropdown-content { display: block; }
+.dropdown:hover .dropdown-content,
+.dropdown.active .dropdown-content { display: block; }
 
 /* Hamburger */
 .hamburger {
