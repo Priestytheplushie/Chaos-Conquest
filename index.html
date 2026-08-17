@@ -177,6 +177,8 @@ nav.scrolled {
     font-size: 0.95rem;
     font-weight: 500;
     transition: color 0.2s ease;
+    position: relative;
+    z-index: 1020;
 }
 
 .dropdown-btn::after {
@@ -187,10 +189,16 @@ nav.scrolled {
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.dropdown:hover .dropdown-btn { color: var(--aqua); }
-.dropdown:hover .dropdown-btn::after {
-    transform: rotate(180deg);
+.dropdown-btn:hover,
+.dropdown.active .dropdown-btn { color: var(--aqua); }
+
+.dropdown-btn:hover::after,
+.dropdown.active .dropdown-btn::after {
     border-top-color: var(--aqua);
+}
+
+.dropdown.active .dropdown-btn::after {
+    transform: rotate(180deg);
 }
 
 .dropdown-content {
@@ -240,7 +248,7 @@ nav.scrolled {
     padding-left: 22px;
 }
 
-.dropdown:hover .dropdown-content { display: block; }
+.dropdown.active .dropdown-content { display: block; }
 
 /* Hamburger */
 .hamburger {
@@ -680,8 +688,8 @@ footer {
 
     <div class="nav-links" id="navLinks">
         <a href="#games">Games</a>
-        <div class="dropdown">
-            <span class="dropdown-btn">Groups</span>
+        <div class="dropdown" id="dropdown">
+            <span class="dropdown-btn" id="dropdownBtn">Groups</span>
             <div class="dropdown-content">
                 <a href="https://link.brawlstars.com/invite/band/en?tag=JULRCJV8&token=bmrwmcdw" target="_blank" rel="noopener noreferrer">
                     <img src="brawlstars.jpg" alt=""> Brawl Stars Club
@@ -796,6 +804,37 @@ footer {
     navLinks.querySelectorAll('a[href^="#"]').forEach(function(link) {
         link.addEventListener('click', closeMenu);
     });
+
+    // ── Dropdown toggle & outside click ──
+    var dropdown = document.getElementById('dropdown');
+    var dropdownBtn = document.getElementById('dropdownBtn');
+
+    if (dropdown && dropdownBtn) {
+        dropdownBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var isOpen = dropdown.classList.contains('active');
+            if (isOpen) {
+                dropdown.classList.remove('active');
+            } else {
+                dropdown.classList.add('active');
+            }
+        });
+
+        dropdown.querySelectorAll('.dropdown-content a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.remove('active');
+                closeMenu();
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    }
 
     // ── Shrink nav on scroll ──
     var navbar = document.getElementById('navbar');
