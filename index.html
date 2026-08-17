@@ -242,6 +242,12 @@ nav.scrolled {
 
 .dropdown:hover .dropdown-content { display: block; }
 
+@media (max-width: 768px) {
+    .dropdown:hover .dropdown-content { display: none !important; }
+    .dropdown.open .dropdown-content { display: block !important; }
+    .dropdown.open .chevron { transform: rotate(180deg); }
+}
+
 /* Hamburger */
 .hamburger {
     display: none;
@@ -877,6 +883,34 @@ footer {
     fetchDiscordMembers();
     setInterval(fetchDiscordMembers, 30000);
 })();
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('a');
+            if (toggle) {
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('open');
+                        
+                        // Close other dropdowns
+                        dropdowns.forEach(other => {
+                            if (other !== dropdown) other.classList.remove('open');
+                        });
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+        });
+    });
 </script>
 </body>
 </html>

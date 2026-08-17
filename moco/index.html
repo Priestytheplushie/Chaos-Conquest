@@ -11,5 +11,33 @@
 </head>
 <body>
     <p>Redirecting you to our mo.co crew... If nothing happens, <a href="https://go.mo.co/?action=social&chat=P01ccb902a0c840c6b77abe1cd3e0f7cb">click here</a>.</p>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('a');
+            if (toggle) {
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('open');
+                        
+                        // Close other dropdowns
+                        dropdowns.forEach(other => {
+                            if (other !== dropdown) other.classList.remove('open');
+                        });
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+        });
+    });
+</script>
 </body>
 </html>
