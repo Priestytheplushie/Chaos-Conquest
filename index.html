@@ -683,8 +683,8 @@ footer {
 
     <div class="nav-links" id="navLinks">
         <a href="#games">Games</a>
-        <div class="dropdown">
-            <span class="dropdown-btn">Groups</span>
+        <div class="dropdown" id="dropdown">
+            <span class="dropdown-btn" id="dropdownBtn">Groups</span>
             <div class="dropdown-content">
                 <a href="https://link.brawlstars.com/invite/band/en?tag=JULRCJV8&token=bmrwmcdw" target="_blank" rel="noopener noreferrer">
                     <img src="brawlstars.jpg" alt=""> Brawl Stars Club
@@ -799,6 +799,23 @@ footer {
     navLinks.querySelectorAll('a[href^="#"]').forEach(function(link) {
         link.addEventListener('click', closeMenu);
     });
+
+    // ── Dropdown toggle & outside click ──
+    var dropdown = document.getElementById('dropdown');
+    var dropdownBtn = document.getElementById('dropdownBtn');
+
+    if (dropdown && dropdownBtn) {
+        dropdownBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            dropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    }
 
     // ── Shrink nav on scroll ──
     var navbar = document.getElementById('navbar');
