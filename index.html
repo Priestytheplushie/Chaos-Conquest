@@ -177,6 +177,8 @@ nav.scrolled {
     font-size: 0.95rem;
     font-weight: 500;
     transition: color 0.2s ease;
+    position: relative;
+    z-index: 1020;
 }
 
 .dropdown-btn::after {
@@ -811,11 +813,17 @@ footer {
         dropdownBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            dropdown.classList.toggle('active');
+            var isOpen = dropdown.classList.contains('active');
+            if (isOpen) {
+                dropdown.classList.remove('active');
+            } else {
+                dropdown.classList.add('active');
+            }
         });
 
-        dropdown.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
+        dropdown.querySelectorAll('.dropdown-content a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.stopPropagation();
                 dropdown.classList.remove('active');
                 closeMenu();
             });
