@@ -552,6 +552,18 @@ footer {
     border-top: 1px solid rgba(255,255,255,.05);
 }
 
+/* ── Mobile Dropdown Fix ── */
+@media (max-width: 768px) {
+    .dropdown.open > ul, 
+    .dropdown.open > .dropdown-content,
+    .dropdown.open > div {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+    }
+}
+
 /* ── Reveal animations ── */
 .reveal {
     opacity: 0;
@@ -892,8 +904,9 @@ footer {
             const toggle = dropdown.querySelector('a');
             if (toggle) {
                 toggle.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768) {
+                    if (window.innerWidth <= 768 || window.matchMedia('(max-width: 768px)').matches) {
                         e.preventDefault();
+                        e.stopPropagation();
                         dropdown.classList.toggle('open');
                         
                         // Close other dropdowns
